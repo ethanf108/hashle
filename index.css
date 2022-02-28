@@ -1,0 +1,26 @@
+#guess > span {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    font-weight: normal;
+    font-size: 100%;
+}
+
+#guess {
+    display: flex;
+}
+
+body {
+    background-color: gray;
+    height: 100%;
+    overflow: hidden;
+}
+
+#nav {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+#nav > h2 {
+    padding: 0.5em;
+}
