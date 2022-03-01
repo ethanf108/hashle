@@ -9,9 +9,14 @@ function setup() {
     request.send(null);
     request.onreadystatechange = function () {
         if (request.readyState === 4 && request.status === 200) {
-            for (var word of request.response.split(/\r?\n/)){
+            for (var word of request.response.split(/\r?\n/)) {
                 words.push(word);
             }
+        }
+    }
+    document.getElementById("input").onkeyup = (e) => {
+        if (e.key === "Enter") {
+            onSubmit();
         }
     }
 }
@@ -77,8 +82,14 @@ function inputChange() {
 }
 
 function win() {
-    document.getElementById("input-section").innerHTML = "<h2>Congrats! You got it in " + guesses + " guess" + (guesses > 1 ? "es" : "") + "!</h2>";
+    document.getElementById("win-message").innerHTML = "<h2>Congrats! You got it in " + guesses + " guess" + (guesses > 1 ? "es" : "") + "!</h2>";
     document.getElementById("preview").hidden = true;
+    document.getElementById("input-section").hidden = true;
+    document.getElementById("win").hidden = false;
+}
+
+function keyup(e) {
+    console.log(e.key);
 }
 
 inputChange();
