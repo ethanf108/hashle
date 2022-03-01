@@ -1,4 +1,4 @@
-.guess > span {
+.guess span {
     display: inline-block;
     color: white;
     font-weight: bold;
@@ -6,7 +6,7 @@
     background-color: #1e1e1e;
 }
 
-.preview > span {
+.preview span {
     display: inline-block;
     color: white;
     font-weight: bold;
@@ -36,6 +36,14 @@ body {
     color: white;
 }
 
-#nav > h2 {
-    padding: 0.5em;
+#nav h2 {
+    padding: 0.5em 0.5em;
+}
+
+#info{
+    padding: 0.5em 0.5em !important;
+    border-redius: 30px !important;
+    perspective: 1px;
+    overflow: hidden;
+    border-color: red;
 }

@@ -22,9 +22,19 @@
 
     </head>
     <body>
-        <div id="nav" class="justify-content-center text-center">
-            <h2>hashle</h2>
-        </div>
+        <nav id="nav" class="justify-content-center text-center">
+            <div id="navrow" class="row">
+                <div class="col-2">
+                    <h2>s</h2>
+                </div>
+                <div class="col-8">
+                    <h2>hashle</h2>
+                </div>
+                <div class="col-2">
+                    <h2 id="info">i</h2>
+                </div>
+            </div>
+        </nav>
         <div class="container">
             <br/>
             <div id="guesses">
@@ -32,9 +42,9 @@
             <div id="preview">
             </div>
             <br/>
-            <div id="input-section" class="input-group justify-content-center text-center">
+            <div id="input-section" class="row align-items-center input-group mb-3 justify-content-center text-center">
                 <div class="col-8">
-                    <input id="input" type="text" class="form-control" oninput="inputChange()"/>
+                    <input id="input" type="text" class="form-control" oninput="inputChange()" maxlength="5"/>
                 </div>
                 <div class="col-4">
                     <button type="button" class="btn btn-dark" onclick="onSubmit()">Submit</button>
@@ -45,7 +55,7 @@
 
             </div>
         </div>
-        <div id="footer">
+        <div id="foot">
             <br/>
         </div>
     </body>

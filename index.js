@@ -1,7 +1,8 @@
-const today_word = "hello";
 const open_guess = "<div class=\"row justify-content-center\"><div id=\"guess\" class=\"col-12 text-center justify-content-center guess\">";
 var guesses = 0;
+var getStatus = 0;
 var words = [];
+var hashes = [];
 
 function setup() {
     var request = new XMLHttpRequest();
@@ -12,6 +13,18 @@ function setup() {
             for (var word of request.response.split(/\r?\n/)) {
                 words.push(word);
             }
+            getStatus++;
+        }
+    }
+    var request2 = new XMLHttpRequest();
+    request2.open('GET', './hashes.txt', true);
+    request2.send(null);
+    request2.onreadystatechange = function () {
+        if (request2.readyState === 4 && request2.status === 200) {
+            for (var hash of request2.response.split(/\r?\n/)) {
+                hashes.push(hash);
+            }
+            getStatus++;
         }
     }
     document.getElementById("input").onkeyup = (e) => {
@@ -53,11 +66,11 @@ function wordleize(answer, guess) {
 
 function onSubmit() {
     const guess = document.getElementById("input").value;
-    if (guess.length !== 5 || !words.includes(guess)) {
+    if (guess.length !== 5 || !words.includes(guess) || getStatus < 2) {
         return;
     }
     var ghash = hash(document.getElementById("input").value);
-    var wordle_result = wordleize(hash(today_word), ghash);
+    var wordle_result = wordleize(hashes[(Math.floor((Date.now()/(1000*60*60)-5)/24)-19052)%hashes.length /* reset at midnight EST */], ghash);
     var html = "";
     guesses++;
 
