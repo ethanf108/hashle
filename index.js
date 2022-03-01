@@ -80,7 +80,7 @@ function onSubmit() {
     document.getElementById("guesses").innerHTML += open_guess + html + "</div></div>";
     document.getElementById("input").value = "";
     inputChange();
-    window.scrollTo(0,document.body.scrollHeight);
+    document.getElementById("input").scrollIntoView();
     if (wordle_result.green.length === 32) {
         win();
     }
