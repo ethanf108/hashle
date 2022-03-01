@@ -3,7 +3,14 @@
     color: white;
     font-weight: bold;
     font-size: 4.5vw;
-    background-color: black;
+    background-color: #1e1e1e;
+}
+
+.preview > span {
+    display: inline-block;
+    color: white;
+    font-weight: bold;
+    font-size: 4.5vw;
 }
 
 .guess {

@@ -1,6 +1,20 @@
 const today_word = "hello";
 const open_guess = "<div class=\"row justify-content-center\"><div id=\"guess\" class=\"col-12 text-center justify-content-center guess\">";
 var guesses = 0;
+var words = [];
+
+function setup() {
+    var request = new XMLHttpRequest();
+    request.open('GET', './words.txt', true);
+    request.send(null);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+            for (var word of request.response.split(/\r?\n/)){
+                words.push(word);
+            }
+        }
+    }
+}
 
 function hash(str) {
     return CryptoJS.MD5(str).toString();
@@ -33,7 +47,8 @@ function wordleize(answer, guess) {
 }
 
 function onSubmit() {
-    if (document.getElementById("input").value.length !== 5) {
+    const guess = document.getElementById("input").value;
+    if (guess.length !== 5 || !words.includes(guess)) {
         return;
     }
     var ghash = hash(document.getElementById("input").value);
@@ -45,15 +60,26 @@ function onSubmit() {
         html += "<span" + (wordle_result.green.includes(i) ? " class=\"w-g\"" : "") + (wordle_result.yellow.includes(i) ? " class=\"w-y\"" : "") + "><tt>" + ghash[i] + "</tt></span>";
     }
     document.getElementById("guesses").innerHTML += open_guess + html + "</div></div>";
-    if(wordle_result.green.length === 32){
-        document.getElementById("input-section").innerHTML = "<h2>Congrats! You got it in " + guesses + " guess" + (guesses > 1 ? "es" : "") + "!</h2>"
+    document.getElementById("input").value = "";
+    inputChange();
+    if (wordle_result.green.length === 32) {
+        win();
     }
 }
 
 function inputChange() {
     var text = document.getElementById("input").value;
     if (text.length === 0) {
-        document.getElementById("preview").innerHTML = "";
+        document.getElementById("preview").innerHTML = open_guess.replace(" guess", " preview") /* i hate this */ + "<span><tt>&nbsp;</tt></span></div></div>";
+        return;
     }
-    document.getElementById("preview").innerHTML = "<tt>" + (text.length === 0 ? "&nbsp;" : hash(text)) + "</tt>";
+    document.getElementById("preview").innerHTML = open_guess.replace(" guess", " preview") /* i hate this */ + "<span><tt>" + (text.length === 0 ? "&nbsp;" : hash(text)) + "</tt></span></div</div>";
 }
+
+function win() {
+    document.getElementById("input-section").innerHTML = "<h2>Congrats! You got it in " + guesses + " guess" + (guesses > 1 ? "es" : "") + "!</h2>";
+    document.getElementById("preview").hidden = true;
+}
+
+inputChange();
+setup();

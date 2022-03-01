@@ -26,13 +26,15 @@
             <h2>hashle</h2>
         </div>
         <div class="container">
+            <br/>
             <div id="guesses">
-
+            </div>
+            <div id="preview">
             </div>
             <br/>
             <div id="input-section" class="input-group justify-content-center text-center">
                 <div class="col-8">
-                    <input id="input" type="text" class="form-control"/>
+                    <input id="input" type="text" class="form-control" oninput="inputChange()"/>
                 </div>
                 <div class="col-4">
                     <button type="button" class="btn btn-dark" onclick="onSubmit()">Submit</button>
