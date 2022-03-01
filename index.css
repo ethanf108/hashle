@@ -1,19 +1,27 @@
-#guess > span {
+.guess > span {
     display: inline-block;
-    background-color: black;
     color: white;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 100%;
+    background-color: black;
 }
 
-#guess {
+.guess {
     display: flex;
+}
+
+.w-g {
+    background-color: green !important;
+}
+
+.w-y {
+    background-color: #CCCC00 !important;
 }
 
 body {
     background-color: gray;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 #nav {
