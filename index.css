@@ -29,6 +29,8 @@ body {
     background-color: gray;
     height: 100%;
     overflow: auto;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 #nav {
@@ -37,13 +39,10 @@ body {
 }
 
 #nav h2 {
-    padding: 0.5em 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.1em;
 }
 
 #info{
-    padding: 0.5em 0.5em !important;
-    border-redius: 30px !important;
-    perspective: 1px;
-    overflow: hidden;
-    border-color: red;
+    user-select: none;
 }

@@ -25,13 +25,13 @@
         <nav id="nav" class="justify-content-center text-center">
             <div id="navrow" class="row">
                 <div class="col-2">
-                    <h2>s</h2>
+                    <h2>&nbsp;</h2>
                 </div>
                 <div class="col-8">
-                    <h2>hashle</h2>
+                    <h2 id="heading">hashle</h2>
                 </div>
                 <div class="col-2">
-                    <h2 id="info">i</h2>
+                    <h2><a id="info">:)</a></h2>
                 </div>
             </div>
         </nav>
@@ -40,19 +40,23 @@
             <div id="guesses">
             </div>
             <div id="preview">
+                <div class="row justify-content-center">
+                    <div id="guess" class="col-12 text-center justify-content-center preview">
+                        <span><tt>&nbsp;</tt></span>
+                    </div>
+                </div>
             </div>
             <br/>
             <div id="input-section" class="row align-items-center input-group mb-3 justify-content-center text-center">
-                <div class="col-8">
+                <div class="col-auto">
                     <input id="input" type="text" class="form-control" oninput="inputChange()" maxlength="5"/>
                 </div>
-                <div class="col-4">
+                <div class="col-auto">
                     <button type="button" class="btn btn-dark" onclick="onSubmit()">Submit</button>
                 </div>
             </div>
             <div id="win" class="justify-content-center text-center" hidden>
                 <h2 id="win-message"></h2>
-
             </div>
         </div>
         <div id="foot">
