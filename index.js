@@ -1,8 +1,9 @@
 const open_guess = "<div class=\"row justify-content-center\"><div class=\"col-auto text-center justify-content-center guess\">";
 var guesses = [];
-var getStatus = 0;
 var words = [];
 var hashes = [];
+var setupDone = false;
+const storage = window.localStorage;
 
 function setup() {
     var request = new XMLHttpRequest();
@@ -13,18 +14,17 @@ function setup() {
             for (var word of request.response.split(/\r?\n/)) {
                 words.push(word);
             }
-            getStatus++;
-        }
-    }
-    var request2 = new XMLHttpRequest();
-    request2.open('GET', './hashes.txt', true);
-    request2.send(null);
-    request2.onreadystatechange = function () {
-        if (request2.readyState === 4 && request2.status === 200) {
-            for (var hash of request2.response.split(/\r?\n/)) {
-                hashes.push(hash);
+            var request2 = new XMLHttpRequest();
+            request2.open('GET', './hashes.txt', true);
+            request2.send(null);
+            request2.onreadystatechange = function () {
+                if (request2.readyState === 4 && request2.status === 200) {
+                    for (var hash of request2.response.split(/\r?\n/)) {
+                        hashes.push(hash);
+                    }
+                    afterSetup();
+                }
             }
-            getStatus++;
         }
     }
     document.getElementById("input").onkeyup = (e) => {
@@ -34,6 +34,25 @@ function setup() {
     }
 }
 
+function afterSetup(){
+    if(storage.getItem("dayNum") === null){
+        console.log("NULL");
+        storage.setItem("dayNum", todayNum());
+    }
+    if(parseInt(storage.getItem("dayNum")) !== todayNum()){
+        storage.removeItem("guesses");
+        storage.setItem("dayNum", todayNum());
+    } else {
+        if(storage.getItem("guesses") === null){
+            storage.setItem("guesses", []);
+        }
+        guesses = storage.getItem("guesses").split(/[,]/);
+        if(guesses[0]===""){
+            guesses=guesses.splice(1);
+        }
+    }
+    reloadGuesses();
+}
 function hash(str) {
     return CryptoJS.MD5(str).toString();
 }
@@ -48,7 +67,7 @@ function todayNum(){
 
 function wordleize(answer, guess) {
     if (answer.length !== guess.length) {
-        throw "Illegal guess length";
+        throw "Illegal guess length" + guess;
     }
     var letters = [];
     var green = [];
@@ -73,27 +92,38 @@ function wordleize(answer, guess) {
 }
 
 function submitGuess(ghash){
+    guesses.push(ghash);
+    addGuess(ghash);
+}
+
+function reloadGuesses(){
+    for(var guess of guesses){
+        addGuess(guess);
+    }
+}
+
+function addGuess(ghash){
     var wordle_result = wordleize(today(), ghash);
     var html = "";
-    guesses.push(ghash);
-
     for (var i = 0; i < ghash.length; i++) {
         html += "<span" + (wordle_result.green.includes(i) ? " class=\"w-g\"" : "") + (wordle_result.yellow.includes(i) ? " class=\"w-y\"" : "") + "><tt>" + ghash[i] + "</tt></span>";
     }
     document.getElementById("guesses").innerHTML += open_guess + html + "</div></div>";
-    if (wordle_result.green.length === 32) {
-        win();
-    }
 }
 
 function onSubmit() {
     const guess = document.getElementById("input").value.toLowerCase();
-    if (guess.length !== 5 || !words.includes(guess) || getStatus < 2) {
+    if (guess.length !== 5 || !words.includes(guess)) {
         return;
     }
     submitGuess(hash(guess));
+    storage.setItem("guesses", guesses.toString());
     document.getElementById("input").value = "";
     inputChange();
+
+    if (hash(guess) === today()) {
+        win();
+    }
     document.getElementById("input").scrollIntoView();
 }
 
@@ -135,6 +165,3 @@ function winResult(){
     }
     return ret + "Play hashle!\n";
 }
-
-inputChange();
-setup();
