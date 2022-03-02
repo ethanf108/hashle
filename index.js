@@ -1,5 +1,5 @@
-const open_guess = "<div class=\"row justify-content-center\"><div id=\"guess\" class=\"col-12 text-center justify-content-center guess\">";
-var guesses = 0;
+const open_guess = "<div class=\"row justify-content-center\"><div class=\"col-auto text-center justify-content-center guess\">";
+var guesses = [];
 var getStatus = 0;
 var words = [];
 var hashes = [];
@@ -64,15 +64,19 @@ function wordleize(answer, guess) {
     return {green: green, yellow: yellow};
 }
 
+function submitGuess(){
+
+}
+
 function onSubmit() {
-    const guess = document.getElementById("input").value;
+    const guess = document.getElementById("input").value.toLowerCase();
     if (guess.length !== 5 || !words.includes(guess) || getStatus < 2) {
         return;
     }
-    var ghash = hash(document.getElementById("input").value);
+    var ghash = hash(guess);
     var wordle_result = wordleize(hashes[(Math.floor((Date.now()/(1000*60*60)-5)/24)-19052)%hashes.length /* reset at midnight EST */], ghash);
     var html = "";
-    guesses++;
+    guesses.push(ghash);
 
     for (var i = 0; i < ghash.length; i++) {
         html += "<span" + (wordle_result.green.includes(i) ? " class=\"w-g\"" : "") + (wordle_result.yellow.includes(i) ? " class=\"w-y\"" : "") + "><tt>" + ghash[i] + "</tt></span>";
@@ -87,16 +91,21 @@ function onSubmit() {
 }
 
 function inputChange() {
-    var text = document.getElementById("input").value;
+    var text = document.getElementById("input").value.toLowerCase();
     if (text.length === 0) {
         document.getElementById("preview").innerHTML = open_guess.replace(" guess", " preview") /* i hate this */ + "<span><tt>&nbsp;</tt></span></div></div>";
         return;
     }
-    document.getElementById("preview").innerHTML = open_guess.replace(" guess", " preview") /* i hate this */ + "<span><tt>" + (text.length === 0 ? "&nbsp;" : hash(text)) + "</tt></span></div</div>";
+    var html = open_guess.replace(" guess", " preview") /* i hate this */;
+    var thash = hash(text);
+    for(var i = 0; i < thash.length; i++){
+        html += "<span><tt>" + thash[i] + "</tt></span>";
+    }
+    document.getElementById("preview").innerHTML = html + "</div></div>";
 }
 
 function win() {
-    document.getElementById("win-message").innerHTML = "<h2>Congrats! You got it in " + guesses + " guess" + (guesses > 1 ? "es" : "") + "!</h2>";
+    document.getElementById("win-message").innerHTML = "<h2>Congrats! You got it in " + guesses.length + " guess" + (guesses.length > 1 ? "es" : "") + "!</h2>";
     document.getElementById("preview").hidden = true;
     document.getElementById("input-section").hidden = true;
     document.getElementById("win").hidden = false;

@@ -11,9 +11,10 @@
     color: white;
     font-weight: bold;
     font-size: 4.5vw;
+    background-color: gray !important;
 }
 
-.guess {
+.guess, .preview{
     display: flex;
 }
 
