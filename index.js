@@ -38,6 +38,14 @@ function hash(str) {
     return CryptoJS.MD5(str).toString();
 }
 
+function today(){
+    return hashes[(Math.floor((Date.now()/(1000*60*60)-5)/24)-19052)%hashes.length /* reset at midnight EST */];
+}
+
+function todayNum(){
+    return Math.floor((Date.now()/(1000*60*60)-5)/24)-19051;
+}
+
 function wordleize(answer, guess) {
     if (answer.length !== guess.length) {
         throw "Illegal guess length";
@@ -64,17 +72,8 @@ function wordleize(answer, guess) {
     return {green: green, yellow: yellow};
 }
 
-function submitGuess(){
-
-}
-
-function onSubmit() {
-    const guess = document.getElementById("input").value.toLowerCase();
-    if (guess.length !== 5 || !words.includes(guess) || getStatus < 2) {
-        return;
-    }
-    var ghash = hash(guess);
-    var wordle_result = wordleize(hashes[(Math.floor((Date.now()/(1000*60*60)-5)/24)-19052)%hashes.length /* reset at midnight EST */], ghash);
+function submitGuess(ghash){
+    var wordle_result = wordleize(today(), ghash);
     var html = "";
     guesses.push(ghash);
 
@@ -82,12 +81,20 @@ function onSubmit() {
         html += "<span" + (wordle_result.green.includes(i) ? " class=\"w-g\"" : "") + (wordle_result.yellow.includes(i) ? " class=\"w-y\"" : "") + "><tt>" + ghash[i] + "</tt></span>";
     }
     document.getElementById("guesses").innerHTML += open_guess + html + "</div></div>";
-    document.getElementById("input").value = "";
-    inputChange();
-    document.getElementById("input").scrollIntoView();
     if (wordle_result.green.length === 32) {
         win();
     }
+}
+
+function onSubmit() {
+    const guess = document.getElementById("input").value.toLowerCase();
+    if (guess.length !== 5 || !words.includes(guess) || getStatus < 2) {
+        return;
+    }
+    submitGuess(hash(guess));
+    document.getElementById("input").value = "";
+    inputChange();
+    document.getElementById("input").scrollIntoView();
 }
 
 function inputChange() {
@@ -111,8 +118,22 @@ function win() {
     document.getElementById("win").hidden = false;
 }
 
-function keyup(e) {
-    console.log(e.key);
+function winResult(){
+    var ret = "hashle #" + todayNum() + " " + guesses.length + "/😊";
+    for(var guess of guesses){
+        const wr = wordleize(today(), guess);
+        for(var i = 0; i < 32; i++){
+            if(wr.green.includes(i)){
+                ret+= "🟩";
+            } else if(wr.yellow.includes(i)){
+                ret += "🟨";
+            } else {
+                ret += "⬛";
+            }
+        }
+        ret+=(wr.green.length==32 ? "🎉" : "#️⃣") + "\n";
+    }
+    return ret + "Play hashle!\n";
 }
 
 inputChange();
