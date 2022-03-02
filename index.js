@@ -97,9 +97,9 @@ function submitGuess(ghash){
 }
 
 function reloadGuesses(){
+    document.getElementById("guesses").innerHTML = "";
     for(var guess of guesses){
         addGuess(guess);
-
         if (guess === today()) {
             win();
         }
@@ -153,7 +153,7 @@ function win() {
 }
 
 function winResult(){
-    var ret = "hashle #" + todayNum() + " " + guesses.length + "/:)\n";
+    var ret = "hashle " + todayNum() + " " + guesses.length + "/:)\n";
     for(var guess of guesses){
         const wr = wordleize(today(), guess);
         for(var i = 0; i < 32; i++){
@@ -167,7 +167,7 @@ function winResult(){
         }
         ret+=(wr.green.length==32 ? "🎉" : "#️⃣") + "\n";
     }
-    return ret + "Play hashle! hashle.com\n";
+    return ret + "Play hashle! " + window.location + "\n";
 }
 
 function share(){
