@@ -62,3 +62,8 @@ body {
 #donate {
     text-decoration: none;
 }
+
+#clear-state {
+    padding-top: 0.3em;
+    padding-bottom: 0.7em;
+}

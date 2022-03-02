@@ -57,6 +57,7 @@
             </div>
             <div id="win" class="justify-content-center text-center" hidden>
                 <h2 id="win-message"></h2>
+                <h3><a onclick="share()">Share! :)</a></h3>
             </div>
         </div>
         <div id="foot">
@@ -67,10 +68,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">hashle :)</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
                         <h5>Made by Ethan Ferguson.</h5>
+                        <div id="clear-state">
+                            <button id="state" type="button" class="btn-small btn-danger" onclick="clearState()">Clear state</button>
+                        </div>
                         <h6>Thanks for playing :)</h6>
                         <br/>
                         <h6>Any donations, while always optional, would be greatly appreciated.</h6>
