@@ -57,7 +57,7 @@
             </div>
             <div id="win" class="justify-content-center text-center" hidden>
                 <h2 id="win-message"></h2>
-                <h3><a onclick="share()">Share! :)</a></h3>
+                <h3><button class="btn btn-success" onclick="share()">Share! :)</button></h3>
             </div>
         </div>
         <div id="foot">
@@ -72,10 +72,15 @@
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
-                        <h5>Made by Ethan Ferguson.</h5>
+                        <h5>Guess the secret word in as many guesses as it takes you :)</h5>
+                        <p>Your guess will be hashed with <a href="https://en.wikipedia.org/wiki/MD5" target="_blank">MD5</a> and compared against the secret word</p>
                         <div id="clear-state">
-                            <button id="state" type="button" class="btn-small btn-danger" onclick="clearState()">Clear state</button>
+                            <button id="state" type="button" class="btn btn-sm btn-danger" onclick="clearState()">Clear state</button>
                         </div>
+                    </div>
+                    <br/>
+                    <div class="modal-body text-center">
+                        <h5>Made by Ethan Ferguson.</h5>
                         <h6>Thanks for playing :)</h6>
                         <br/>
                         <h6>Any donations, while always optional, would be greatly appreciated.</h6>
