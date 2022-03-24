@@ -117,7 +117,7 @@ function addGuess(ghash){
 
 function onSubmit() {
     const guess = document.getElementById("input").value.toLowerCase();
-    if (guess.length !== 5 || !words.includes(guess)) {
+    if (guess !== "chom" && (guess.length !== 5 || !words.includes(guess))) {
         return;
     }
     submitGuess(hash(guess));
