@@ -1,25 +1,25 @@
 const open_guess = "<div class=\"row justify-content-center\"><div class=\"col-auto text-center justify-content-center guess\">";
-var guesses = [];
-var words = [];
-var hashes = [];
-var setupDone = false;
+let guesses = [];
+let words = [];
+let hashes = [];
+let setupDone = false;
 const storage = window.localStorage;
 
 function setup() {
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.open('GET', './words.txt', true);
     request.send(null);
     request.onreadystatechange = function () {
         if (request.readyState === 4 && request.status === 200) {
-            for (var word of request.response.split(/\r?\n/)) {
+            for (let word of request.response.split(/\r?\n/)) {
                 words.push(word);
             }
-            var request2 = new XMLHttpRequest();
+            let request2 = new XMLHttpRequest();
             request2.open('GET', './hashes.txt', true);
             request2.send(null);
             request2.onreadystatechange = function () {
                 if (request2.readyState === 4 && request2.status === 200) {
-                    for (var hash of request2.response.split(/\r?\n/)) {
+                    for (let hash of request2.response.split(/\r?\n/)) {
                         hashes.push(hash);
                     }
                     afterSetup();
@@ -69,17 +69,17 @@ function wordleize(answer, guess) {
     if (answer.length !== guess.length) {
         throw "Illegal guess length" + guess;
     }
-    var letters = [];
-    var green = [];
-    var yellow = [];
-    for (var i = 0; i < answer.length; i++) {
+    let letters = [];
+    let green = [];
+    let yellow = [];
+    for (let i = 0; i < answer.length; i++) {
         if (answer[i] === guess[i]) {
             green.push(i);
         } else {
             letters.push(answer[i]);
         }
     }
-    for (var i = 0; i < answer.length; i++) {
+    for (let i = 0; i < answer.length; i++) {
         if (green.includes(i)) {
             continue;
         }
@@ -98,7 +98,7 @@ function submitGuess(ghash){
 
 function reloadGuesses(){
     document.getElementById("guesses").innerHTML = "";
-    for(var guess of guesses){
+    for(let guess of guesses){
         addGuess(guess);
         if (guess === today()) {
             win();
@@ -107,9 +107,9 @@ function reloadGuesses(){
 }
 
 function addGuess(ghash){
-    var wordle_result = wordleize(today(), ghash);
-    var html = "";
-    for (var i = 0; i < ghash.length; i++) {
+    let wordle_result = wordleize(today(), ghash);
+    let html = "";
+    for (let i = 0; i < ghash.length; i++) {
         html += "<span" + (wordle_result.green.includes(i) ? " class=\"w-g\"" : "") + (wordle_result.yellow.includes(i) ? " class=\"w-y\"" : "") + "><tt>" + ghash[i] + "</tt></span>";
     }
     document.getElementById("guesses").innerHTML += open_guess + html + "</div></div>";
@@ -132,14 +132,14 @@ function onSubmit() {
 }
 
 function inputChange() {
-    var text = document.getElementById("input").value.toLowerCase();
+    let text = document.getElementById("input").value.toLowerCase();
     if (text.length === 0) {
         document.getElementById("preview").innerHTML = open_guess.replace(" guess", " preview") /* i hate this */ + "<span><tt>&nbsp;</tt></span></div></div>";
         return;
     }
-    var html = open_guess.replace(" guess", " preview") /* i hate this */;
-    var thash = hash(text);
-    for(var i = 0; i < thash.length; i++){
+    let html = open_guess.replace(" guess", " preview") /* i hate this */;
+    let thash = hash(text);
+    for(let i = 0; i < thash.length; i++){
         html += "<span><tt>" + thash[i] + "</tt></span>";
     }
     document.getElementById("preview").innerHTML = html + "</div></div>";
@@ -153,10 +153,10 @@ function win() {
 }
 
 function winResult(){
-    var ret = "hashle " + todayNum() + " " + guesses.length + "/:)\n";
-    for(var guess of guesses){
+    let ret = "hashle " + todayNum() + " " + guesses.length + "/:)\n";
+    for(let guess of guesses){
         const wr = wordleize(today(), guess);
-        for(var i = 0; i < 32; i++){
+        for(let i = 0; i < 32; i++){
             if(wr.green.includes(i)){
                 ret+= "🟩";
             } else if(wr.yellow.includes(i)){
