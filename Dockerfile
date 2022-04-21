@@ -1,4 +1,2 @@
-FROM nginx:alpine
-WORKDIR /app
-COPY . .
-COPY ./nginx.conf /etc/nginx/nginx.conf
+FROM galenguyer/nginx:latest
+COPY . /usr/share/nginx/html
